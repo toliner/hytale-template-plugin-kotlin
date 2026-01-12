@@ -1,4 +1,4 @@
-package com.example.templateplugin;
+package com.example.templateplugin
 
 /**
  * Main plugin class.
@@ -8,47 +8,47 @@ package com.example.templateplugin;
  * @author YourName
  * @version 1.0.0
  */
-public class TemplatePlugin {
+class TemplatePlugin {
+    companion object {
+        /**
+         * Get plugin instance.
+         */
+        lateinit var instance: TemplatePlugin
+            private set
+    }
 
-    private static TemplatePlugin instance;
-    
     /**
      * Constructor - Called when plugin is loaded.
      */
-    public TemplatePlugin() {
-        instance = this;
-        System.out.println("[TemplatePlugin] Plugin loaded!");
+    init {
+        instance = this
+        println("[TemplatePlugin] Plugin loaded!")
     }
-    
+
     /**
      * Called when plugin is enabled.
      */
-    public void onEnable() {
-        System.out.println("[TemplatePlugin] Plugin enabled!");
-        
+    fun onEnable() {
+        println("[TemplatePlugin] Plugin enabled!")
+
+
         // TODO: Initialize your plugin here
         // - Load configuration
         // - Register event listeners
         // - Register commands
         // - Start services
     }
-    
+
     /**
      * Called when plugin is disabled.
      */
-    public void onDisable() {
-        System.out.println("[TemplatePlugin] Plugin disabled!");
-        
+    fun onDisable() {
+        println("[TemplatePlugin] Plugin disabled!")
+
+
         // TODO: Cleanup your plugin here
         // - Save data
         // - Stop services
         // - Close connections
-    }
-    
-    /**
-     * Get plugin instance.
-     */
-    public static TemplatePlugin getInstance() {
-        return instance;
     }
 }

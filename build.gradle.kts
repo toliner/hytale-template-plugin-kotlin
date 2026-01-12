@@ -2,6 +2,10 @@ plugins {
     id("java-library")
     id("com.gradleup.shadow") version "9.3.1"
     id("run-hytale")
+    kotlin("jvm") version "2.3.0"
+    kotlin("plugin.serialization") version "2.3.0"
+    id("org.jetbrains.kotlin.plugin.power-assert") version "2.3.0"
+    id("io.kotest") version "6.0.7"
 }
 
 group = findProperty("pluginGroup") as String? ?: "com.example"
@@ -18,12 +22,19 @@ dependencies {
     compileOnly(files("libs/hytale-server.jar"))
     
     // Common dependencies (will be bundled in JAR)
-    implementation("com.google.code.gson:gson:2.10.1")
-    implementation("org.jetbrains:annotations:24.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    // Optional: uncomment if you are not familiar with kotlinx.serialization
+    // implementation("com.google.code.gson:gson:2.10.1")
+
+    // Optional: coroutine for async
+    // implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     
     // Test dependencies
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation(kotlin("test"))
+    testImplementation("io.kotest:kotest-runner-junit5:6.0.7")
+    // Optional: uncomment if you like JUnit rather than Kotest
+    // testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    // testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 // Configure server testing
@@ -63,8 +74,12 @@ tasks {
         archiveClassifier.set("")
         
         // Relocate dependencies to avoid conflicts
-        relocate("com.google.gson", "com.yourplugin.libs.gson")
-        
+        relocate("com.google.gson", "${group}.libs.gson")
+        relocate("kotlin", "${group}.libs.kotlin") {
+            exclude("kotlinx.*")
+        }
+        relocate("kotlinx", "${group}.libs.kotlinx")
+
         // Minimize JAR size (removes unused classes)
         minimize()
     }
@@ -85,4 +100,8 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(25))
     }
+}
+
+powerAssert {
+    functions = listOf("io.kotest.matchers.shouldBe")
 }
