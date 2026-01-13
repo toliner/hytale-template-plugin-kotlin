@@ -37,13 +37,6 @@ dependencies {
     // testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-// Configure server testing
-runHytale {
-    // TODO: Update this URL when Hytale server is available
-    // Using Paper server as placeholder for testing the runServer functionality
-    jarUrl = "https://fill-data.papermc.io/v1/objects/d5f47f6393aa647759f101f02231fa8200e5bccd36081a3ee8b6a5fd96739057/paper-1.21.10-115.jar"
-}
-
 tasks {
     // Configure Java compilation
     compileJava {
